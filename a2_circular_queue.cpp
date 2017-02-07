@@ -1,62 +1,80 @@
 #include <iostream>
 #include "a2_circular_queue.hpp"
 
+
 using namespace std;
 typedef CircularQueue::QueueItem QueueItem;
 const QueueItem CircularQueue::EMPTY_QUEUE = -999;
 
-CircularQueue::CircularQueue(): items_(NULL), capacity_(16), head_(0), tail_(0), size_(0) 
+CircularQueue::CircularQueue()
 {
-	items_ = new QueueItem[capacity_];
+	items_ = new QueueItem[16];
+	this->head_ = 0;
+	this->tail_ = 0;
+	this->size_ = 0;
+	this->capacity_ = 16;
 }
 
-CircularQueue::CircularQueue(unsigned int capacity): items_(NULL), capacity_(capacity), head_(0), tail_(0), size_(0)
+CircularQueue::CircularQueue(unsigned int capacity)
 {
-	items_ = new QueueItem[capacity_];
+	items_ = new QueueItem[capacity];
+	this->head_ = 0;
+	this->tail_ = 0;
+	this->size_ = 0;
+	this->capacity_ = capacity;
 }
 
 CircularQueue::~CircularQueue()
 {
-	delete [] items_;
-	items_ = NULL;
+	delete [] this->items_;
 }
 
 bool CircularQueue::empty() const
 {    
-	return size_ == 0;
+	return this->size_ == 0;
 }
 
 bool CircularQueue::full() const
 {
-	return size_ == capacity_;
+	return this->size_ == this->capacity_;
 }
 
 int CircularQueue::size() const
 {  
-	return size_;
+	return this->size_;
 }
 
 bool CircularQueue::enqueue(QueueItem value)
 {
+	if (!this->full())
+	{
+		items_[tail_] = value;
+		this->tail_ = (this->tail_+ 1) % this->capacity_;
+		this->size_++;
+		return true;
+	}
+	return false;
 }
 
 QueueItem CircularQueue::dequeue()
 {
-	if(empty())
-		return EMPTY_QUEUE;
-	QueueItem LastItem = items_[head_];
-	for(int i = head_; i < tail_; i++)
+	if (!empty())
 	{
-		items_[i] = items_[i + 1];
+		QueueItem lastItem = items_[head_];
+		this->head_ = (this->head_ + 1) % this->capacity_;
+		this->size_--;
+		return lastItem;
 	}
-	return LastItem;	
+	return EMPTY_QUEUE;
 }
 
 QueueItem CircularQueue::peek() const
 {
-	if(empty())
-		return EMPTY_QUEUE;
-	return items_[head_];
+	if (!empty())
+	{
+		return items_[head_];
+	}
+	return EMPTY_QUEUE;
 }
 
 void CircularQueue::print() const
@@ -65,9 +83,43 @@ void CircularQueue::print() const
 		cout << "Circular Queue is empty!" << endl;
 	else
 	{
-		for(int i = head_; i < tail_; i++)
+		// Tail > head
+		if (tail_ > head_)
 		{
-			cout << cout << i << ": " << items_[i] << endl;
+			for (int i = head_; i < tail_; i++)
+			{
+				cout << i << ": " << items_[i] << endl; 
+			}
 		}
-	}
+		// Tail == head and size != 0
+		else if (tail_ == head_ && size_ != 0)
+		{
+			int counter = 0;
+			for (int i = head_; i < size_; i++)
+			{
+				cout << counter << ": " << items_[i] << endl;
+				counter++;
+			}
+			for (int i = 0; i < tail_; i++)
+			{
+				cout << counter << ": " << items_[i] << endl;
+				counter++;
+			}
+		}
+		// Head > tail
+		else
+		{
+			int counter = 0;
+			for (int i = head_; i < size_; i++)
+			{
+				cout << counter << ": " << items_[i] << endl;
+				counter++;
+			}
+			for (int i = 0; i < tail_; i++)
+			{
+				cout << counter << ": " << items_[i] << endl;
+				counter++;
+			}
+		}
+}
 }
