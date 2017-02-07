@@ -59,13 +59,46 @@ void DynamicStack::push(StackItem value)
 
 StackItem DynamicStack::pop()
 {
+		if(!empty())
+	{
+		StackItem LastItem = items_[size_ - 1];
+		items_[size - 1] = 0;
+		size_--;
+		
+		if(size_ <= (capacity_/4) && (capacity_/2) >= init_capacity_)
+		{
+			StackItems* temp = new StackItem[capacity_/2];
+			for(int i = 0; i < size_; i++)
+			{
+				temp[i] = items_[i];
+			}
+			delete [] items_;
+			items_ = temp;
+			temp = NULL;
+		}
+		return LastItem;
+	}
+	return EMPTY_STACK;
 }
 
 StackItem DynamicStack::peek() const
 {
+		if(!empty())
+	{
+		items_[size_ - 1];
+	}
+	return EMPTY_STACK;
 }
 
 void DynamicStack::print() const
 {
+		if(!empty())
+	{
+		for(int i = 0; i < size_; i++)
+		{
+			cout << i << ": " << items_[i] << endl;
+		}
+	}
+	cout << "The Stack is empty!" << endl;
 }
 
