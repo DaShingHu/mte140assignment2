@@ -13,14 +13,6 @@ int main() {
     DynamicStackTest stack_test;
     CircularQueueTest queue_test;
 	
-	DynamicStack* test2 = new DynamicStack(2);
-	cout << test2->size() << test2->empty() << endl;
-	test2->push(0);
-	test2->push(0);
-	test2->push(0);
-	test2->push(4);
-	cout << test2->size() << endl;
-	cout << test2->peek() << endl;
 	string stack_test_descriptions[10] = {
       "Test1: New stack is valid",
       "Test2: Push one item and then pop it",
@@ -45,7 +37,7 @@ int main() {
     stack_test_results[7] = stack_test.test8();
     stack_test_results[8] = stack_test.test9();
     stack_test_results[9] = stack_test.test10();
-
+//
 	cout << "DYNAMIC STACK TESTING RESULTS \n";
 	cout << "***************************** \n";
 	for (int i = 0; i < 10; ++i) {
@@ -53,6 +45,7 @@ int main() {
 	}
 	cout << endl;
 	
+//	
 	string queue_descriptions[10] = {
       "Test1: New queue is valid",
       "Test2: Enqueue one item and then dequeue it",
@@ -83,6 +76,6 @@ int main() {
 	for (int i = 0; i < 10; ++i) {
     	cout << queue_descriptions[i] << endl << get_status_str(queue_test_results[i]) << endl;
 	}
-	cout << endl;
-    system("pause");
+//	cout << endl;
+//    system("pause");
 }
