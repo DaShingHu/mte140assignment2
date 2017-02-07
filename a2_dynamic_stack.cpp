@@ -44,14 +44,13 @@ void DynamicStack::push(StackItem value)
 	}
 	else
 	{
-		int* deleteThis = this->items_;
-		int* temp = new StackItem[this->capacity_ * 2];
+		StackItem* temp = new StackItem[this->capacity_ * 2];
 		for (int i = 0; i < this->capacity_ * 2; i++)
 		{
 			temp[i] = this->items_[i];
 		}
+		delete[] this->items_;
 		this->items_ = temp;
-		delete [] deleteThis;
 		this->capacity_ = this->capacity_ * 2;
 		this->push(value);
 	}

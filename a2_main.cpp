@@ -18,9 +18,9 @@ int main() {
 	test2->push(0);
 	test2->push(0);
 	test2->push(0);
-	test2->push(0);
+	test2->push(4);
 	cout << test2->size() << endl;
-	
+	cout << test2->peek() << endl;
 	string stack_test_descriptions[10] = {
       "Test1: New stack is valid",
       "Test2: Push one item and then pop it",
